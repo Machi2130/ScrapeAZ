@@ -19,6 +19,8 @@ import bisect
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_cors import CORS
 import os
+from flask import send_file
+
 
 app = Flask(__name__)
 CORS(app)
@@ -770,8 +772,8 @@ scraper = AdvancedAmazonScraper()
 
 @app.route('/')
 def index():
-    """Serve the main page"""
-    return render_template('index.html')
+    """Serve the main page from the current folder"""
+    return send_file("index.html")
 
 @app.route('/api/scrape', methods=['POST'])
 async def scrape():
