@@ -1,11 +1,10 @@
 services:
   - type: web
-    name: amazon-scraper-api
+    name: amazon-scraper
     env: python
-    plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: python app.py
+    startCommand: gunicorn app:app --bind=0.0.0.0:$PORT
     envVars:
-      - key: FLASK_ENV
-        value: production
+      - key: PORT
+        value: 5000
     autoDeploy: true
