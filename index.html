@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Amazon Product Scraper</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #3b82f6;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+        }
+        .input-section {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+        .input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.9em;
+            color: #a0a0a0;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #333;
+            color: #e0e0e0;
+            font-size: 1em;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .checkbox-group input {
+            margin-right: 8px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn:hover:not(:disabled) {
+            background-color: #2563eb;
+        }
+        .btn:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        .status {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+            color: #facc15;
+        }
+        .error {
+            background-color: #7f1d1d;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            color: #fee2e2;
+        }
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background-color: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .stat-card h3 {
+            font-size: 1.5em;
+            color: #3b82f6;
+            margin: 0 0 10px;
+        }
+        .stat-card p {
+            color: #a0a0a0;
+            margin: 0;
+        }
+        .results-section {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #444;
+            text-align: left;
+            font-size: 0.9em;
+        }
+        th {
+            background-color: #333;
+            color: #3b82f6;
+        }
+        tr:nth-child(even) {
+            background-color: #222;
+        }
+        tr:hover {
+            background-color: #2d3748;
+        }
+        a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .export-btn {
+            padding: 10px 20px;
+            background-color: #16a34a;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .export-btn:hover {
+            background-color: #15803d;
+        }
+        .download-link {
+            margin-top: 10px;
+            display: inline-block;
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        .download-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Universal Amazon Product Scraper</h1>
+        <p class="subtitle">Extract product data from any Amazon category with advanced filtering and analysis</p>
+
+        <div class="input-section">
+            <div class="input-group">
+                <div>
+                    <label for="searchQuery">🔍 Search Query or Product URL</label>
+                    <input type="text" id="searchQuery" placeholder="e.g., smartphones under 20000 or Amazon URL">
+                </div>
+                <div>
+                    <label for="maxProducts">📊 Max Products</label>
+                    <input type="number" id="maxProducts" value="50" min="1">
+                </div>
+                <div>
+                    <label for="maxPages">📄 Max Pages</label>
+                    <input type="number" id="maxPages" value="2" min="1">
+                </div>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="extractModels" checked>
+                <label for="extractModels">Extract Model Numbers</label>
+            </div>
+            <button class="btn" id="scrapeButton" onclick="startScraping()">🚀 Start Scraping</button>
+        </div>
+
+        <div id="status" class="status" style="display: none;">Scraping Amazon Products...</div>
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div id="statsSection" class="stats-section" style="display: none;">
+            <div class="stat-card">
+                <h3 id="totalProducts">0</h3>
+                <p>Total Products</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="avgPrice">₹0</h3>
+                <p>Average Price</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="avgRating">0</h3>
+                <p>Average Rating</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="topBrand">-</h3>
+                <p>Top Brand</p>
+            </div>
+        </div>
+
+        <div id="resultsSection" class="results-section" style="display: none;">
+            <h2 style="font-size: 1.5em; margin-bottom: 15px;">Product Results</h2>
+            <table id="productTable">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Product Name</th>
+                        <th>Model</th>
+                        <th>Price</th>
+                        <th>Rating</th>
+                        <th>Reviews</th>
+                        <th>Key Features</th>
+                        <th>Specifications</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody"></tbody>
+            </table>
+            <div class="export-buttons">
+                <button class="export-btn" onclick="exportData('csv')">Export to CSV</button>
+                <button class="export-btn" onclick="exportData('excel')">Export to Excel</button>
+            </div>
+            <div id="downloadLink" style="display: none;">
+                <a class="download-link" href="#" target="_blank">Download File</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function startScraping() {
+            const searchQuery = document.getElementById('searchQuery').value.trim();
+            const maxProducts = parseInt(document.getElementById('maxProducts').value) || 50;
+            const maxPages = parseInt(document.getElementById('maxPages').value) || 2;
+            const extractModels = document.getElementById('extractModels').checked;
+            const scrapeButton = document.getElementById('scrapeButton');
+            const status = document.getElementById('status');
+            const errorDiv = document.getElementById('error');
+            const downloadLink = document.getElementById('downloadLink');
+
+            if (!searchQuery) {
+                errorDiv.textContent = 'Please enter a search query or URL';
+                errorDiv.style.display = 'block';
+                status.style.display = 'none';
+                return;
+            }
+
+            scrapeButton.disabled = true;
+            status.style.display = 'block';
+            status.textContent = 'Scraping Amazon Products...';
+            errorDiv.style.display = 'none';
+            document.getElementById('statsSection').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'none';
+            downloadLink.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/scrape', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        search_query: searchQuery,
+                        max_pages: maxPages,
+                        max_products: maxProducts,
+                        extract_models: extractModels
+                    })
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || 'Scraping failed');
+                }
+
+                // Update statistics
+                document.getElementById('totalProducts').textContent = data.products.length;
+                document.getElementById('avgPrice').textContent = `₹${Math.round(data.price_statistics.avg || 0).toLocaleString()}`;
+                const avgRating = data.products.reduce((sum, p) => sum + (parseFloat(p.Rating.split('/')[0]) || 0), 0) / Math.max(data.products.length, 1);
+                document.getElementById('avgRating').textContent = avgRating.toFixed(1);
+                document.getElementById('topBrand').textContent = Object.keys(data.brand_distribution)[0] || '-';
+                document.getElementById('statsSection').style.display = 'grid';
+
+                // Update product table
+                const tbody = document.getElementById('productTableBody');
+                tbody.innerHTML = '';
+                data.products.forEach(product => {
+                    const specs = product.Specifications !== 'N/A' ? JSON.stringify(JSON.parse(product.Specifications), null, 2).replace(/\n/g, '<br>').slice(0, 100) + '...' : '-';
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${product.Brand}</td>
+                        <td><a href="${product.Product_URL}" target="_blank">${product.Product_Name.slice(0, 50)}${product.Product_Name.length > 50 ? '...' : ''}</a></td>
+                        <td>${product.Model_Number}</td>
+                        <td>${product.Price}</td>
+                        <td>${product.Rating}</td>
+                        <td>${product.Review_Count}</td>
+                        <td>${product.Discount !== 'N/A' ? `${product.Discount} off` : '-'}</td>
+                        <td>${specs}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+                document.getElementById('resultsSection').style.display = 'block';
+
+                status.textContent = 'Scraping Completed!';
+            } catch (err) {
+                errorDiv.textContent = `Error: ${err.message}`;
+                errorDiv.style.display = 'block';
+                status.style.display = 'none';
+            } finally {
+                scrapeButton.disabled = false;
+            }
+        }
+
+        async function exportData(type) {
+            const errorDiv = document.getElementById('error');
+            const downloadLink = document.getElementById('downloadLink');
+            const downloadAnchor = downloadLink.querySelector('a');
+
+            try {
+                const response = await fetch('/api/export', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ export_type: type })
+                });
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || 'Export failed');
+                }
+
+                downloadAnchor.href = `/${data.filename}`;
+                downloadAnchor.textContent = `Download ${type.toUpperCase()} File`;
+                downloadLink.style.display = 'block';
+                errorDiv.style.display = 'none';
+            } catch (err) {
+                errorDiv.textContent = `Export failed: ${err.message}`;
+                errorDiv.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
