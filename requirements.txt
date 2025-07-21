@@ -8,3 +8,11 @@ crawl4ai
 openpyxl
 playwright
 tabulate
+Flask
+flask-cors
+gunicorn
+pandas
+bs4
+crawl4ai
+openpyxl
+nest_asyncio
