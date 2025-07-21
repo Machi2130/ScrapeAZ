@@ -298,10 +298,13 @@
                     })
                 });
 
-                const data = await response.json();
                 if (!response.ok) {
-                    throw new Error(data.error || 'Scraping failed');
+                    const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+                    throw new Error(errorData.error || `HTTP error: ${response.status}`);
                 }
+
+                const data = await response.json();
+                console.log('Scrape response:', data); // Debug log
 
                 // Update statistics
                 document.getElementById('totalProducts').textContent = data.products.length;
@@ -333,6 +336,7 @@
 
                 status.textContent = 'Scraping Completed!';
             } catch (err) {
+                console.error('Scrape error:', err); // Debug log
                 errorDiv.textContent = `Error: ${err.message}`;
                 errorDiv.style.display = 'block';
                 status.style.display = 'none';
@@ -352,16 +356,20 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ export_type: type })
                 });
-                const data = await response.json();
+
                 if (!response.ok) {
-                    throw new Error(data.error || 'Export failed');
+                    const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+                    throw new Error(errorData.error || `HTTP error: ${response.status}`);
                 }
 
+                const data = await response.json();
+                console.log('Export response:', data); // Debug log
                 downloadAnchor.href = `/${data.filename}`;
                 downloadAnchor.textContent = `Download ${type.toUpperCase()} File`;
                 downloadLink.style.display = 'block';
                 errorDiv.style.display = 'none';
             } catch (err) {
+                console.error('Export error:', err); // Debug log
                 errorDiv.textContent = `Export failed: ${err.message}`;
                 errorDiv.style.display = 'block';
             }
