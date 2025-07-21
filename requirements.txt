@@ -16,3 +16,4 @@ bs4
 crawl4ai
 openpyxl
 nest_asyncio
+flask[async]
